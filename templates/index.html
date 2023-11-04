@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" translate="no"> 
+    <head> 
+        <style>
+            *:active {
+                -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            }
+        </style>
+        <title>Alpine Flask Todo</title> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    </head> 
+    <body class="w-screen h-[90vh] md:h-screen flex items-center justify-center px-10 md:px-20"> 
+    
+        <div class="w-full py-1 flex justify-center font-bold bg-green-400 fixed top-0 gap-2 text-2xl shadow-md">
+            <img src="https://cdn.simpleicons.org/flask/black" width="25" />
+            To-Do App
+            <img src="https://cdn.simpleicons.org/alpinedotjs/black" width="32" />
+        </div>
+    
+        <div 
+          class="w-full md:w-[50vw]"
+          x-data="{ todos: [] }"
+          x-init="todos = await (await fetch('/data')).json()"
+        >
+          <template x-for="item in todos">
+            <div :class="item.done ? 'bg-green-400' : 'bg-gray-200'" class="text-[17px] h-[40px] py-1 px-3 mt-1 rounded-xl flex justify-between items-center shadow-sm">
+              <div class="first-letter:uppercase overflow-hidden text-ellipsis pr-2">
+                  <span :class="item.done ? 'line-through' : '' " class="first-letter:uppercase" x-text="item.todo"></span>
+              </div>
+              <div class="flex gap-2">
+                <span @click="location.href = `/delete/${item.id}`"><i class="fa-solid text-xl cursor-pointer fa-trash text-red-600"></i></span>
+                <span @click="location.href = `/done/${item.id}`"><i class="fa-solid cursor-pointer text-xl fa-check text-green-600"></i></span>
+              </div>
+            </div>
+          </template>
+          <form x-data="{ message: `` }" method="post" action="/add" novalidate class="flex flex-col gap-2 mt-2 items-center group">
+            <h1 class="text-2xl " x-show="!todos[0]">Let's add something.</h1>
+            <input name="todo_input" class="outline-0 border-[1.4px] border-gray-700 group w-full h-[36px] rounded-xl px-2" required x-model="message" />
+            <button class="bg-green-400 hover:bg-green-600 hover:text-white transition w-fit inline-block py-2 px-7 shadow-sm rounded-lg group-invalid:opacity-30" :disabled="message == ''" type="submit">Add</button>
+          </form>
+          
+          <button class="bg-red-600 text-lg hover:bg-red-600 hover:text-white transition w-fit inline-block py-2 px-5 shadow-sm rounded-full fixed bottom-5 left-5 text-white" @click="location.href = '/deleteall'"><i class="fa-solid fa-trash mr-1"></i> All</button>
+          <a href="https://github.com/luthpai/flask-alpine-todo" class="rounded-full w-[45px] h-[45px] p-2 bg-gray-800 active:scale-90 transition text-white flex items-center justify-center fixed bottom-5 right-5"><img src="https://cdn.simpleicons.org/github/white" class=""  /></a>
+        </div>    
+    </body> 
+</html>
