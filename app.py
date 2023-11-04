@@ -5,11 +5,11 @@ app = Flask(__name__)
 app.json.sort_keys = False
 
 def load_data():
-    with open('./data.json') as file:
+    with open('/tmp/data.json') as file:
         return json.load(file)
 
 def save_data(json_data):
-    with open('./data.json', 'w') as file:
+    with open('/tmp/data.json', 'w') as file:
         json.dump(json_data, file, indent=4)
 
 @app.route("/")
