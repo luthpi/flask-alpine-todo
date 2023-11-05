@@ -4,13 +4,20 @@ Databaseless To-Do app built with Flask, Alpine and Tailwind
 
 ## Install
 
-```pip install Flask```
+```
+pip install Flask
+```
 
 and then 
 
-```flask run```
+```
+flask run
+```
 
-open a browser and go to `localhost:5000`
+open a browser and go to 
+```
+http://localhost:5000
+```
 
 
 ## License
